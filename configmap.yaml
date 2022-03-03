@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-setup
+  labels:
+    app: postgres
+data:
+  script.sh: | 
+    #!/bin/sh
+    psql -U postgres -d postgres <<-EOSQL
+    CREATE DATABASE AssetMark_DevDb;
+    CREATE USER dbuser WITH PASSWORD 'pass1234';
+    \du
+    GRANT ALL PRIVILEGES ON DATABASE assetmark_devdb to dbuser;
+    \l
+    \connect assetmark_devdb dbuser
+    EOSQL
